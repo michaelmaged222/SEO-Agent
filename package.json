@@ -1,0 +1,26 @@
+{
+  "name": "petsy-seo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pet-sy SEO: multi-tenant, subscription-ready SEO automation SaaS (seo.pet-sy.com)",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "start": "node src/server.ts",
+    "worker": "node src/worker.ts",
+    "migrate": "node src/migrate.ts up",
+    "migrate:down": "node src/migrate.ts down",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test --test-concurrency=1 \"test/**/*.test.ts\"",
+    "check": "npm run typecheck && npm test"
+  },
+  "dependencies": {
+    "postgres": "3.4.9"
+  },
+  "devDependencies": {
+    "@types/node": "22.x",
+    "typescript": "^6.0.0"
+  }
+}
