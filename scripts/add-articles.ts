@@ -1,8 +1,9 @@
 /**
- * Adds journal articles in advance, one per day, so the Journal grows by itself: each article is saved as published but
- * dated in the future, and the website only shows it (and lists it in the sitemap) once its day has come.
+ * Adds journal articles in advance, twice a week (~every 3-4 days), so the Journal grows steadily: each article is
+ * saved as published but dated in the future, and the website only shows it (and lists it in the sitemap) once its
+ * day has come.
  *   npm run articles:add -- --dry-run
- *   npm run articles:add                       # first article tomorrow, then one per day
+ *   npm run articles:add                       # first article tomorrow, then every 3-4 days
  *   npm run articles:add -- --start 2026-10-06 # choose the first day
  * Existing articles (same address) are never touched. Edit or unpublish any of them in Admin → Articles.
  */
@@ -27,7 +28,7 @@ let day = 0;
 let added = 0;
 for (const a of batches) {
   if (existing.has(a.slug)) continue;
-  const publishedAt = new Date(first.getTime() + day * 86400_000);
+  const publishedAt = new Date(first.getTime() + day * 3.5 * 86400_000);
   day++;
   console.log(`${publishedAt.toISOString().slice(0, 10)}  /${a.slug}/  (${a.body.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length} words)`);
   added++;
@@ -44,5 +45,5 @@ for (const a of batches) {
     seoDescription: { en: a.seoDescription },
   });
 }
-console.log(`\n${dryRun ? "Dry run: " : ""}${added} article(s) ${dryRun ? "would be " : ""}scheduled, one per day.`);
+console.log(`\n${dryRun ? "Dry run: " : ""}${added} article(s) ${dryRun ? "would be " : ""}scheduled, twice a week (~every 3-4 days).`);
 await sql.end();
